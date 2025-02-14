@@ -1,54 +1,34 @@
 
-import pandas as pn
+import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
 
 #first I'll start doing a simple linear regression of just two variables (x,y), with random variables that change every time. 
 
-import numpy as np
-num_puntos = 30
-x = np.random.randint(0,100, num_puntos)
-y = np.random.randint(0,100, num_puntos)
+data = pd.read_csv("C:\\Users\\salbo\\Desktop\\Personal\\learning regressions\\regressiondata.csv")
+studytime = data["STUDYTIME"]
+score = data["SCORE"]
 
-print("Lista puntos:")
-print(x,y)
+x = data[["STUDYTIME"]]
+y = data["SCORE"]
 
-def loss_function(m, b, points):
-    total_error = 0
-    for i in range(len(points)):
-        x = points[i].studytime
-        y = points[i].score
-        total_error += (y - (m * x + b)) ** 2
-    total_error / float(len(points))
-def gradient_descent(m_now, b_now, points, L):
-    m_gradient = 0
-    b_gradient = 0
+X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
+model = LinearRegression()
+model.fit(X_train, y_train)
 
-    n = len(points)
+y_pred = model.predict(X_test)
+mse = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
 
-    for i in range(n):
-        x = points[i]
-        y = points[i]
+plt.scatter(X_test, y_test, color="blue", label="Datos Reales")
+plt.plot(X_test, y_pred, color="red", linewidth=3, label="Línea de Regresión")
 
-        m_gradient += -(2/n) * x * (y -(m_now * x + b_now))
-        b_gradient += -(2/n) * x * (y -(m_now * x + b_now))
-
-    m = m_now - m_gradient * L
-    b = b_now - b_gradient * L
-    return m, b
-
-m = 0
-b = 0
-L = 0.0001
-epochs = 1000
-
-for i in range(epochs):
-    if i % 50 == 0:
-        print(f"Epoch: {i}")
-    m, b = gradient_descent(m, b, (x,y), L)
-print (m, b)
-
-plt.scatter(x, y, color="black")
-plt.plot(list(range(20, 80)), [m * x + b for x in range(20, 80)], color="red")
+plt.xlabel("x")
+plt.ylabel("y")
+plt.legend()
 plt.show()
-
-
+print(f"Mean Squared Error: {mse:.4f}")
+print(f"R-squared: {r2:.4f}")
