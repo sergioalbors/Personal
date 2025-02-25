@@ -2,12 +2,12 @@
 
 import matplotlib.pyplot as plt
 import pandas as pd
+import numpy as np
 data = pd.read_csv("C:\\Users\\salbo\\Desktop\\Personal\\learning regressions\\regressiondata.csv")
 x = data["STUDYTIME"].astype(float)
 y = data["SCORE"].astype(float)
 
-m = 0.98898371
-b = 1.9175
+m , b = np.polyfit(x, y, 1)
 
 yi = m * x + b
 plt.scatter(x,y)
