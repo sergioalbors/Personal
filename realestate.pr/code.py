@@ -3,7 +3,7 @@ from PIL import Image
 
 st.title("Welcome to a linear regression example")
 st.write("In this particular example we will show how a class of students has ")
-st.slider("choose the hours you've studied")
+st.slider("how many hours have you studied?", min_value=0, max_value=20)
 
 
 
