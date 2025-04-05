@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-n = 10
-x = np.random.uniform(0, 100, n)
+n = 4
+x = np.random.uniform(-100, 100, n)
 y = np.random.uniform(-100,100, n) 
 #a = np.polyfit(x, y, n-1)
 

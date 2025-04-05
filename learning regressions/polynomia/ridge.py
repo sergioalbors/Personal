@@ -1,23 +1,17 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.preprocessing import PolynomialFeatures
-from sklearn.linear_model import Ridge
-from sklearn.pipeline import make_pipeline
+n = 100
+x = np.random.uniform(-1,1,n)
+y = (x-.95)*(x-.2)*(x+.89)*(x-.9)*(x+.4)+ 0.1*np.random.randn(n)
+p = 4
+X = np.vstack([np.ones(len(x)),x]).T
+alpha = 1.0
 
-np.random.seed(40)
-X = np.linspace(-3, 3, 100).reshape(-1, 1)
-noise = np.random.randn(100, 1) * 3
-y = 2 * X**3 - 5 * X**2 + X + noise
+I = np.eye(X.shape[1])
+r4 = np.matmul(np.linalg.inv(np.matmul(X.T, X) + alpha * I ),np.matmul(X.T, y))
+yh4 = np.matmul(X, r4)
 
-#alpha equals lambda, that is the penalty of the sum of squared coefficients of our model,
-#this penalty discourages the model from assigning too high values to any one feature
-degree = 5
-ridge_model = make_pipeline(PolynomialFeatures(degree), Ridge(alpha = 1000))
-ridge_model.fit(X, y)
-
-X_pred = np.linspace(-3, 3, 100).reshape(-1, 1)
-y_pred = ridge_model.predict(X_pred)
-
-plt.scatter(X, y)
-plt.plot(X_pred, y_pred)
+print()
+plt.scatter(x, y)
+plt.plot(x, yh4)
 plt.show()
