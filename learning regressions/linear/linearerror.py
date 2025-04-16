@@ -19,6 +19,7 @@ temp_2 = x_new_transpose.dot(y)
 theta = temp_1.dot(temp_2)
 plt.scatter(x,y)
 plt.plot(x, theta[0]+theta[1]*x)
+plt.title("Sergioalbors(l.r)")
 plt.show()
 def prediction(x,intercept, slope):
     y_pred = x*slope + intercept
